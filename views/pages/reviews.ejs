@@ -1,0 +1,53 @@
+<%- include('../partials/header'); -%>
+<body>
+  <main>
+    <%- include('../partials/menu', {items: items}); %>
+    <div class="" style="background-color: #ffffff;">
+        <div class="row">&nbsp;</div>
+        <h3 class="text-center"">Meal Reviews</h3>
+      <div class="container-fluid" style="padding: 2%; ">
+        <form class="" action="/search_reviews" method="post">
+          <div class="row">
+            <div class="col-3">
+
+            </div>
+            <div class="col-5">
+              <input class="form-control" id="searchword" type="text" name="searchword" placeholder="Enter Food Title" required='required'>
+            </div>
+            <div class="col-1">
+              <input class="btn btn-primary" type="submit" name="Filter" value = "Filter"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container-lg" style="margin-top: 2%;">
+      <% if (error) { %>
+        <div class="alert alert-danger"><%- message %></div>
+      <% } %>
+    </div>
+    <%
+    if (items){
+        var table = '';
+        table += "<div class='col-md-10 mx-auto'>";
+        table += "<table class='table table-bordered' id='stats_table'>";
+			table += "<tr>";
+				table += "<th class='align-bottom'>Meal</th>";
+				table += "<th class='align-bottom'>Review</th>";
+				table += "<th class='align-bottom'>Review Date</th>";
+			table += "</tr>";
+			items.forEach(item => {
+                table += "<tr>";
+                    table += "<td>"+ item.meal_name +"</td>";
+                    table += "<td>"+ item.review +"</td>";
+                    table += "<td>"+ item.review_date +"</td>";
+                table += "</tr>";
+            })
+        table += "</table>";
+        table += "</table>";
+    %>
+        <%- table %>
+    <% } %>
+    
+  </main>
+<%- include('../partials/footer'); -%>

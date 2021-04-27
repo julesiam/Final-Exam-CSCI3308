@@ -1,0 +1,118 @@
+<%- include('../partials/header'); -%>
+<body>
+  <main>
+    <%- include('../partials/menu'); %>
+    <div class="" style="background-color: #333D40;">
+      <div class="container-fluid" style="padding: 2%; ">
+        <form class="" action="/get_feed" method="post">
+          <div class="row">
+            <div class="col-3">
+
+            </div>
+            <div class="col-5">
+              <input class="form-control" type="text" name="title" placeholder="Enter Search Text">
+            </div>
+            <div class="col-1">
+              <input class="btn btn-light" type="submit" name="Search" value = "Search"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container-lg" style="margin-top: 2%;">
+        <% if (error) { %>
+            <div class="alert alert-danger"><%- message %></div>
+        <% } %>
+    </div>
+    <%
+    if (items) {
+        var cards = '';
+        <!-- Starts at 0 for the first modal and increments to track which food item the modal is for -->
+        var modal_index = 0;
+        cards += "<div class='card-deck'>";
+	<!-- Iterate the items object & update the cards variable -->
+        cards += "<div class='col-md-10 mx-auto'>";
+        items.forEach(item => {
+            cards += "<div class='card'>";
+                cards += "<div class='row no-gutters'>";
+
+                    cards += "<div class='col-md-3'>";
+                        <!-- Photo -->
+                        cards += "<img src='" + item.strMealThumb + "' style='width:100%'>";
+                    cards += "</div>";  
+
+                    cards += "<div class='col-md-9'>";
+                        cards += "<div class='card-body'>";
+                            <!-- Title -->
+                            cards += "<h4 class='card-title'>" + item.strMeal +"</h4><br>";
+                            <!--Instructions-->
+                            cards += "<h6 class='card-subtitle'>Instructions</h6>";
+                            cards += "<p class='card-text'>" + item.strInstructions + "</p>";  
+                            <!--Tags-->
+                            cards += "<h6 class='card-subtitle'>Tags</h6>";
+                            cards += "<p class='card-text'>" + item.strTags + "</p>"; 
+                            <!-- Buttons -->
+                            cards += "<a href='" + item.strSource + "' class='btn btn-primary'>View Source Website</a>";
+                            cards += "&nbsp;&nbsp;&nbsp;";
+                            cards += "<a href='" + item.strYoutube + "' class='btn btn-primary'>Watch on Youtube</a>";
+                            <!-- Formatting stuff y'know -->
+                            cards += "<br>";
+                            cards += "<br>";
+                            <!-- Add Review -->
+                            cards += "<a href='#myModal" + modal_index + "' class='btn btn-primary' data-toggle='modal' onclick='openModal()'>Add Review</a>";
+                            <!-- Modal Implementation -->
+                            cards += "<div id='myModal" + modal_index + "' class='modal fade bd-example-modal-lg'>";
+                                cards += "<div class='modal-dialog modal-lg'>";
+                                    cards += "<div class='modal-content'>";
+                                        cards += "<div class='modal-header'>";
+                                            cards += "<h4 class='modal-title'>Add Review</h4>";
+                                            cards += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
+                                                cards += "<span aria-hidden='true'>&times;</span>";
+                                            cards += "</button>";
+                                        cards += "</div>";
+                                        cards += "<div class='modal-body'>";
+                                            <!-- Form -->
+                                            cards += "<form action='/post_review' method='post' id='userreview_form'>";
+                                                cards += "<div class='row'>";
+                                                    cards += "<div class='col-md-3'>";
+                                                        cards += "<h6>Meal Name:</h6><br>";
+                                                    cards += "</div>";
+                                                    cards += "<div class='col-md-9'>";
+                                                        cards += "<p1>" + item.strMeal +"</p1>";
+                                                    cards += "</div>";
+                                                cards += "</div>";
+                                                cards += "<div class='row'>";
+                                                    cards += "<div class='col-md-3'>";
+                                                        cards += "<h6>Enter your review here:</h6>";
+                                                    cards += "</div>";
+                                                    cards += "<div class='col-md-9'>";
+                                                        cards += "<div class='form-group'>";
+                                                            cards += "<input class='form-control input-lg' id='user_review' type='text' name='user_review' required='required'>";
+                                                            cards += "<input type='hidden' name='meal_id' id='meal_id' value='" + item.idMeal + "'>";
+                                                            cards += "<input type='hidden' name='meal_name' id='meal_name' value='" + item.strMeal + "'>";
+                                                        cards += "</div>";
+                                                    cards += "</div>";
+                                                cards += "</div>";
+                                                <!-- Submit Button -->
+                                                cards += "<div class='text-right'><button id='my_submit_button' class='btn btn-primary'>Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>";
+                                            cards += "</form>";
+                                        cards += "</div>";
+                                    cards += "</div>";
+                                cards += "</div>";
+                            cards += "</div>";
+                        cards += "</div>";    
+                    cards += "</div>";
+                cards += "</div>";
+                
+            cards += "</div>";
+            modal_index++;
+            cards += "&nbsp;";
+        })
+        cards += "</div>";
+
+%>
+    <%- cards %>
+<% } %>
+
+  </main>
+<%- include('../partials/footer'); -%>
