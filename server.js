@@ -94,7 +94,7 @@ app.post('/post_review', function(req, res) {
     meal_name = req.body.meal_name;
     date = new Date();
     //db insert statement
-    var insert_statement = "INSERT INTO meal_reviews(meal_id, meal_name, review, review_date) VALUES("+meal_id+",'"+meal_name+"','"+ user_review +"','"+ date +"');";
+    var insert_statement = `INSERT INTO meal_reviews(meal_id, meal_name, review, review_date) VALUES(${meal_id},'${meal_name}','${user_review}','${date}');`;;
     var reviews_query = 'select * from meal_reviews;';
 
     db.task('get-everything', task => {
@@ -153,7 +153,7 @@ app.get('/reviews', function(req, res) {
 app.post('/search_reviews', function(req, res) {
     var search_term = req.body.searchword;
 	var reviews_query = "select * from meal_reviews WHERE LOWER(meal_name) LIKE LOWER('%"+ search_term +"%');"; // Write a SQL query to retrieve the color message for the selected color
-    console.log(reviews_query);
+
     db.any(reviews_query)
         .then(function (rows) {
             res.render('pages/reviews.ejs', {
