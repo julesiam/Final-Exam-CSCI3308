@@ -5,7 +5,7 @@ var bodyParser = require('body-parser'); // Body-parser -- a library that provid
 app.use(bodyParser.json());              // Support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Support encoded bodies
 const axios = require('axios');
-const qs = require('query-string');
+//const qs = require('query-string');
 
 //Create Database Connection
 var pgp = require('pg-promise')({});
