@@ -118,7 +118,7 @@ app.post('/post_review', function(req, res) {
             my_title: "TheMealDB reviews",
             items: '',
             error: true,
-            message: ''
+            message: 'Error: Apostrophes are not supported in reviews.'
             })
     })
     
