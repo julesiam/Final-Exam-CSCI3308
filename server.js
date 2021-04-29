@@ -5,16 +5,15 @@ var bodyParser = require('body-parser'); // Body-parser -- a library that provid
 app.use(bodyParser.json());              // Support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Support encoded bodies
 const axios = require('axios');
-//const qs = require('query-string');
 
 //Create Database Connection
 var pgp = require('pg-promise')({});
 const dbConfig = {
 	host: 'localhost',
 	port: 5432,
-	database: 'review_db',
-	user: 'postgres',
-	password: 'Password1!'
+	database: process.env.POSTGRES_DB,
+	user:  process.env.POSTGRES_USER,
+	password: process.env.POSTGRES_PASSWORD
 };
 
 var db = pgp(dbConfig);
@@ -175,5 +174,6 @@ app.post('/search_reviews', function(req, res) {
         })
 });
 
-module.exports = app.listen(3000);
-console.log('3000 is the magic port');
+const server = app.listen(process.env.PORT || 3000, () => {
+    console.log(`Express running → PORT ${server.address().port}`);
+});

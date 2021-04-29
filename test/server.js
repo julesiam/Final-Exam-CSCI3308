@@ -47,7 +47,7 @@ describe("Server!", () => {
             });
     });
 
-    it ("Postive Test for review search (only passes with review_db initialized)", done => {
+    it ("Postive Test for review search", done => {
         chai
             .request(server)
             .post("/search_reviews")
@@ -59,7 +59,7 @@ describe("Server!", () => {
             });
     });
 
-    it ("Positive test for display all reviews (only passes with review_db initialized)", done => {
+    it ("Positive test for display all reviews", done => {
         chai
             .request(server)
             .get("/reviews")
@@ -76,7 +76,7 @@ describe("Server!", () => {
             .get("/reviews")
             .end((err, res) => {
                 expect(res.text).to.not.contain('No title was provided for the search.');
-                expect(res.text).to.not.contain('Simply mix all dry ingredients with wet ingredients and blend altogether.');
+                expect(res.text).to.not.contain('Simply mix all dry ingredients with wet ingredients and blend altogether.'); //instructions shouldn't be in reviews 
                 done();
             });
     });
