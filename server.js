@@ -9,17 +9,16 @@ const axios = require('axios');
 //Create Database Connection
 var pgp = require('pg-promise')({});
 const dbConfig = {
-	host: process.env.POSTGRES_HOST,
+	host: 'ec2-23-22-191-232.compute-1.amazonaws.com',
 	port: 5432,
-	database: process.env.POSTGRES_DB,
-	user:  process.env.POSTGRES_USER,
-	password: process.env.POSTGRES_PASSWORD
+	database: 'd7ijaegaq4gdkr',
+	user:  'naanctwlaxvzub',
+	password: '8dbe9003073ada0a3ed87b1e2c196a6460282a496381560ca02fc2d91aaa30f4'
 };
 
 const isProduction = process.env.NODE_ENV === 'production';
 const dbConfig = isProduction ? process.env.DATABASE_URL : dev_dbConfig;
 
-// fixes: https://github.com/vitaly-t/pg-promise/issues/711
 if (isProduction) {
 	pgp.pg.defaults.ssl = {rejectUnauthorized: false};
 }
@@ -100,8 +99,9 @@ app.post('/post_review', function(req, res) {
     meal_id = req.body.meal_id;
     meal_name = req.body.meal_name;
     date = new Date();
+    date = date.toLocaleDateString() + " " + date.toLocaleTimeString();
     //db insert statement
-    var insert_statement = `INSERT INTO meal_reviews(meal_id, meal_name, review, review_date) VALUES(${meal_id},'${meal_name}','${user_review}','${date}');`;;
+    var insert_statement = `INSERT INTO meal_reviews(meal_id, meal_name, review, review_date) VALUES(${meal_id},'${meal_name}','${user_review}','${date}');`;
     var reviews_query = 'select * from meal_reviews;';
 
     db.task('get-everything', task => {
