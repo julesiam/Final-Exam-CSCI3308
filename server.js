@@ -9,11 +9,11 @@ const axios = require('axios');
 //Create Database Connection
 var pgp = require('pg-promise')({});
 const dbConfig = {
-	host: 'ec2-23-22-191-232.compute-1.amazonaws.com',
-	port: 5432,
-	database: 'd7ijaegaq4gdkr',
-	user:  'naanctwlaxvzub',
-	password: '8dbe9003073ada0a3ed87b1e2c196a6460282a496381560ca02fc2d91aaa30f4'
+	host: process.env.DB_IP,
+	port: process.env.DB_PORT,
+	database: process.env.DB,
+	user:  process.env.DB_USER,
+	password: process.env.DB_PASSWORD
 };
 
 const isProduction = process.env.NODE_ENV === 'production';
